@@ -1,15 +1,20 @@
-import { View, Text, Image, StyleSheet, Animated } from 'react-native'
+import { View, Text, Image, StyleSheet, Animated, Pressable } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { Score } from './Score'
+import { Link } from 'expo-router'
 
 export default function Card({ game }) {
     return (
-        <View style={styles.card}>
-            <Text style={styles.title}>{game.title}</Text>
-            <Image source={{ uri: game.image }} style={styles.image} />
-            <Score score={game.score} maxScore={100} />
-            <Text style={styles.description}>{game.description.slice(0,150)}...</Text>
-        </View>
+        <Link asChild href={`/${game.slug}`}>
+            <Pressable >
+                <View style={styles.card}>
+                    <Text style={styles.title}>{game.title}</Text>
+                    <Image source={{ uri: game.image }} style={styles.image} />
+                    <Score score={game.score} maxScore={100} />
+                    <Text style={styles.description}>{game.description.slice(0, 150)}...</Text>
+                </View>
+            </Pressable>
+        </Link>
     )
 }
 
@@ -24,11 +29,11 @@ export function AnimatedCard({ game, index }) {
             delay: index * 250,
             useNativeDriver: true,
         }).start()
-    }, [opacity,index])
+    }, [opacity, index])
 
     return (
         <Animated.View style={{ opacity }} >
-            <Card game={game}  /> 
+            <Card game={game} />
         </Animated.View>
     )
 }
